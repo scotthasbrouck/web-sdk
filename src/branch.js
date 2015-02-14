@@ -401,7 +401,8 @@ var Branch = function Branch(app_id, debug, callback) {
 				self.api.makeRequest(config.resources.links.createLinkClick, {
 					link_url: window.XDomainRequest ? url.replace(/^https:\/\/[^\/]+/, 'http://bnc.lt') : url.replace(/^http:\/\/[^\/]+/, 'https://bnc.lt') + '?click'
 				}, function(data) {
-					self.sendSMSLink(phone, config.linkUrl + '/c/' + data.click_id, function() {
+					var linkUrl = window.XDomainRequest ? config.linkUrl.replace('https://', 'http://') : config.linkUrl.replace('http://', 'https://');
+					self.sendSMSLink(phone, linkUrl + '/c/' + data.click_id, function() {
 						if (typeof callback == 'function') { callback(); }
 					}, errorCallback);
 				}, errorCallback);
